@@ -7,13 +7,15 @@ import {
   CSVFileEntityState,
   UseCase,
   CSVFileRowRepository,
+  CSVAnalyzerQueueProducer,
 } from '../../types';
 import { transformCSVParseOutputToObject } from '../../lib/utils';
 
 export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
   constructor(
     private csvFileRepository: CSVFileRepository,
-    private csvFileRowRepository: CSVFileRowRepository
+    private csvFileRowRepository: CSVFileRowRepository,
+    private csvAnalyzingQueueProducer: CSVAnalyzerQueueProducer
   ) {}
 
   async execute(file: CSVFileEntity): Promise<void> {
@@ -35,6 +37,8 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
       file._id,
       CSVFileEntityState.DONE_PARSING
     );
+
+    await this.csvAnalyzingQueueProducer.addJob({ id: file._id });
   }
 
   private parseCSVFile(filePath: string): Promise<any[]> {

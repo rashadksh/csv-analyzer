@@ -9,12 +9,14 @@ import { CSVFileNotFoundError } from '../../lib/errors/csv-errors';
 import { MongoCSVFileRepository } from '../repositories/csv-file.repository';
 import { ParseCSVFileUseCase } from '../usecases/parse-csv-usecase';
 import { MongoCSVFileRowRepository } from '../repositories/csv-file-row.repository';
+import { CSVAnalyzingQueueProducer } from './csv-analyzing-queue.producer';
 
 @Processor(CSV_PARSING_QUEUE_NAME)
 export class CSVParsingQueueConsumer implements CSVAnalyzerQueueConsumer {
   constructor(
     private csvFileRepository: MongoCSVFileRepository,
-    private csvFileRowRepository: MongoCSVFileRowRepository
+    private csvFileRowRepository: MongoCSVFileRowRepository,
+    private csvAnalyzingQueueProducer: CSVAnalyzingQueueProducer
   ) {}
 
   @Process()
@@ -27,7 +29,8 @@ export class CSVParsingQueueConsumer implements CSVAnalyzerQueueConsumer {
 
     const parseCSVUsecase = new ParseCSVFileUseCase(
       this.csvFileRepository,
-      this.csvFileRowRepository
+      this.csvFileRowRepository,
+      this.csvAnalyzingQueueProducer
     );
     await parseCSVUsecase.execute(fileEntity);
 
