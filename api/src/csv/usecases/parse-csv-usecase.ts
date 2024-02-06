@@ -24,15 +24,11 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
       CSVFileEntityState.PARSING
     );
 
-    const [header, ...rows] = await this.parseCSVFile(file.path);
+    const { header, rows } = await this.parseCSVFile(file.path);
 
-    const headerValues = Object.values<string>(header);
-    await this.csvFileRepository.setFileHeaderById(file._id, headerValues);
+    await this.csvFileRepository.setFileHeaderById(file._id, header);
+    await this.csvFileRowRepository.insertFileRows(file._id, rows);
 
-    const rowsObjects = rows.map((row) =>
-      transformCSVParseOutputToObject(headerValues, row)
-    );
-    await this.csvFileRowRepository.insertFileRows(file._id, rowsObjects);
     await this.csvFileRepository.setFileStateById(
       file._id,
       CSVFileEntityState.DONE_PARSING
@@ -41,7 +37,22 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
     await this.csvAnalyzingQueueProducer.addJob({ id: file._id });
   }
 
-  private parseCSVFile(filePath: string): Promise<any[]> {
+  private async parseCSVFile(filePath: string): Promise<{
+    header: string[];
+    rows: object[];
+  }> {
+    const [header, ...rows] = await this.parseRawCSVFile(filePath);
+
+    const headerValues = Object.values<string>(header);
+    const tranformedRows = this.transformCSVRowsIntoObjects(headerValues, rows);
+
+    return {
+      header: headerValues,
+      rows: tranformedRows,
+    };
+  }
+
+  private parseRawCSVFile(filePath: string): Promise<any[]> {
     return new Promise<any[]>((resolve, reject) => {
       const rows: any[] = [];
       fs.createReadStream(filePath)
@@ -58,5 +69,12 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
           reject(error);
         });
     });
+  }
+
+  private transformCSVRowsIntoObjects(
+    headers: string[],
+    rows: object[]
+  ): object[] {
+    return rows.map((row) => transformCSVParseOutputToObject(headers, row));
   }
 }
