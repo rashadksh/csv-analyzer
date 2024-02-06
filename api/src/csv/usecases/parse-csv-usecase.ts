@@ -7,7 +7,7 @@ import {
   CSVFileEntityState,
   UseCase,
   CSVFileRowRepository,
-  CSVAnalyzerQueueProducer,
+  QueueProducer,
 } from '../../types';
 import { transformCSVParseOutputToObject } from '../../lib/utils';
 
@@ -15,7 +15,7 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
   constructor(
     private csvFileRepository: CSVFileRepository,
     private csvFileRowRepository: CSVFileRowRepository,
-    private csvAnalyzingQueueProducer: CSVAnalyzerQueueProducer
+    private csvAnalyzingQueueProducer: QueueProducer
   ) {}
 
   async execute(file: CSVFileEntity): Promise<void> {

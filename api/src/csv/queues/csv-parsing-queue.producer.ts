@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 
 import { CSV_PARSING_QUEUE_NAME } from '../../constants';
-import { CSVAnalyzerQueueProducer } from '../../types/common/queue';
+import { QueueProducer } from '../../types/common/queue';
 
 @Injectable()
-export class CSVParsingQueueProducer implements CSVAnalyzerQueueProducer {
+export class CSVParsingQueueProducer implements QueueProducer {
   constructor(
     @InjectQueue(CSV_PARSING_QUEUE_NAME) private parsingQueue: Queue
   ) {}

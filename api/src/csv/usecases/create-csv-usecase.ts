@@ -5,7 +5,7 @@ import {
   CSVFileEntity,
   CSVFileEntityState,
   UseCase,
-  CSVAnalyzerQueueProducer,
+  QueueProducer,
 } from '../../types';
 
 export class CreateCSVUseCase
@@ -13,7 +13,7 @@ export class CreateCSVUseCase
 {
   constructor(
     private fileRepository: CSVFileRepository,
-    private parsingQueueProducer: CSVAnalyzerQueueProducer
+    private parsingQueueProducer: QueueProducer
   ) {}
 
   async execute(input: CreateCSVFileDTO): Promise<CSVFileEntity> {

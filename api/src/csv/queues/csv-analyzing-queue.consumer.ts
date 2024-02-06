@@ -3,14 +3,14 @@ import { Logger } from '@nestjs/common';
 import { OnQueueError, OnQueueFailed, Process, Processor } from '@nestjs/bull';
 
 import { CSV_ANALYZING_QUEUE_NAME } from '../../constants';
-import { CSVAnalyzerQueueConsumer } from '../../types/common/queue';
+import { QueueConsumer } from '../../types/common/queue';
 import { CSVFileNotFoundError } from '../../lib/errors/csv-errors';
 
 import { MongoCSVFileRepository } from '../repositories/csv-file.repository';
 import { MongoCSVFileRowRepository } from '../repositories/csv-file-row.repository';
 
 @Processor(CSV_ANALYZING_QUEUE_NAME)
-export class CSVAnalyzingQueueConsumer implements CSVAnalyzerQueueConsumer {
+export class CSVAnalyzingQueueConsumer implements QueueConsumer {
   constructor(
     private csvFileRepository: MongoCSVFileRepository,
     private csvFileRowRepository: MongoCSVFileRowRepository
