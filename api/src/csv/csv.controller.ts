@@ -20,7 +20,7 @@ import { CSVAnalyzerHTTPError } from '../lib/errors/csv-analyzer-http-errors';
 import { CSVService } from './csv.service';
 import { CSVFileMapper } from './csv.mapper';
 
-const MAX_FILE_SIZE_BYTES = 1024;
+const MAX_FILE_SIZE_BYTES = 1000 * 1024; // 1MB
 
 @Controller('csv')
 export class CSVController {
