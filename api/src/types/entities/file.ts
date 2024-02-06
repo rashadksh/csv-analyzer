@@ -1,6 +1,8 @@
 export enum FileEntityState {
   UPLOADED = 'uploaded',
-  PROCESSING = 'processing',
+  PARSING = 'parsing',
+  DONE_PARSING = 'done_parsing',
+  ANALYZING = 'analyzing',
   DONE = 'done',
   FAILED = 'failed',
 }

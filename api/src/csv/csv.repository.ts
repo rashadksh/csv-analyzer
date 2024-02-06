@@ -2,7 +2,7 @@ import { Collection, Db, ObjectId } from 'mongodb';
 import { Inject, Injectable } from '@nestjs/common';
 
 import { DI } from '../di';
-import { FileEntity, CSVRepository } from '../types';
+import { FileEntity, CSVRepository, FileEntityState } from '../types';
 
 @Injectable()
 export class MongoCSVRepository implements CSVRepository {
@@ -23,5 +23,21 @@ export class MongoCSVRepository implements CSVRepository {
 
   getFileById(id: string): Promise<FileEntity> {
     return this.collection.findOne({ _id: id });
+  }
+
+  async setFileStateById(
+    id: string,
+    state: FileEntityState
+  ): Promise<FileEntity> {
+    await this.collection.updateOne(
+      { _id: id },
+      {
+        $set: {
+          state,
+        },
+      }
+    );
+
+    return this.getFileById(id);
   }
 }
