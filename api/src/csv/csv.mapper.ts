@@ -7,6 +7,7 @@ export class CSVFileMapper {
       name: file.name,
       state: file.state,
       header: file.header,
+      charts: file.charts,
       updatedAt: file.updatedAt,
       createdAt: file.createdAt,
     };

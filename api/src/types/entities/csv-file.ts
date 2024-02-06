@@ -12,6 +12,7 @@ export interface CSVFileEntity {
   name: string;
   path: string;
   state: CSVFileEntityState;
+  charts: any[];
   header: string[];
   createdAt: Date;
   updatedAt: Date;

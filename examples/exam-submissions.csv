@@ -1,0 +1,26 @@
+Student ID,Subject,Exam Date,Exam Score
+1,Mathematics,2023-05-12,85
+2,English,2023-06-05,78
+3,Physics,2023-04-28,92
+4,Chemistry,2023-05-15,68
+5,Biology,2023-06-20,75
+6,History,2023-04-10,88
+7,Geography,2023-05-29,79
+8,Computer Science,2023-06-08,94
+9,Art,2023-04-03,70
+10,Music,2023-05-17,82
+11,Mathematics,2023-06-10,90
+12,English,2023-04-25,73
+13,Physics,2023-05-31,87
+14,Chemistry,2023-06-12,65
+15,Biology,2023-04-15,81
+16,History,2023-05-05,76
+17,Geography,2023-06-22,89
+18,Computer Science,2023-04-18,72
+19,Art,2023-05-23,84
+20,Music,2023-06-03,91
+21,Mathematics,2023-04-30,77
+22,English,2023-05-18,86
+23,Physics,2023-06-24,69
+24,Chemistry,2023-04-07,83
+25,Biology,2023-05-27,74

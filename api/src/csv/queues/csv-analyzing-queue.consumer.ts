@@ -5,15 +5,17 @@ import { OnQueueError, OnQueueFailed, Process, Processor } from '@nestjs/bull';
 import { CSV_ANALYZING_QUEUE_NAME } from '../../constants';
 import { QueueConsumer } from '../../types/common/queue';
 import { CSVFileNotFoundError } from '../../lib/errors/csv-errors';
-
 import { MongoCSVFileRepository } from '../repositories/csv-file.repository';
 import { MongoCSVFileRowRepository } from '../repositories/csv-file-row.repository';
+import { GenerateCSVFileChartsUseCase } from '../usecases/generate-csv-charts.usecase';
+import { OpenAIService } from '../../infra/openai.service';
 
 @Processor(CSV_ANALYZING_QUEUE_NAME)
 export class CSVAnalyzingQueueConsumer implements QueueConsumer {
   constructor(
     private csvFileRepository: MongoCSVFileRepository,
-    private csvFileRowRepository: MongoCSVFileRowRepository
+    private csvFileRowRepository: MongoCSVFileRowRepository,
+    private openAIService: OpenAIService
   ) {}
 
   @Process()
@@ -23,6 +25,13 @@ export class CSVAnalyzingQueueConsumer implements QueueConsumer {
     if (!fileEntity) {
       throw new CSVFileNotFoundError();
     }
+
+    const generateCSVFileChartsUsecase = new GenerateCSVFileChartsUseCase(
+      this.csvFileRepository,
+      this.csvFileRowRepository,
+      this.openAIService
+    );
+    await generateCSVFileChartsUsecase.execute(fileEntity);
 
     Logger.debug(`Done analyzing csv file ${job.data.id}`);
   }

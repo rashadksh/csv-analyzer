@@ -21,6 +21,7 @@ export class CreateCSVUseCase
       name: input.name,
       path: input.path,
       state: CSVFileEntityState.UPLOADED,
+      charts: [],
       createdAt: new Date(),
       updatedAt: new Date(),
     });

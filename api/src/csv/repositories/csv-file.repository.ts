@@ -60,4 +60,17 @@ export class MongoCSVFileRepository implements CSVFileRepository {
 
     return this.getFileById(id);
   }
+
+  async setFileCharts(id: string, charts: any[]): Promise<CSVFileEntity> {
+    await this.collection.updateOne(
+      { _id: id },
+      {
+        $set: {
+          charts,
+        },
+      }
+    );
+
+    return this.getFileById(id);
+  }
 }

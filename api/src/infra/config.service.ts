@@ -20,4 +20,8 @@ export class ConfigService {
   getRedisPort(): number {
     return this.configService.get('REDIS_PORT');
   }
+
+  getOpenAIKey(): string {
+    return this.configService.get('OPEN_AI_KEY');
+  }
 }
