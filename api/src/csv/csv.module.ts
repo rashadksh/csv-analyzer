@@ -8,7 +8,8 @@ import { CSVController } from './csv.controller';
 import { CSVService } from './csv.service';
 import { MongoCSVFileRepository } from './repositories/csv-file.repository';
 import { MongoCSVFileRowRepository } from './repositories/csv-file-row.repository';
-import { CSVParsingQueue } from './csv-parsing.queue';
+import { CSVParsingQueueConsumer } from './queues/csv-parsing-queue.consumer';
+import { CSVParsingQueueProducer } from './queues/csv-parsing-queue.producer';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { CSVParsingQueue } from './csv-parsing.queue';
     CSVService,
     MongoCSVFileRepository,
     MongoCSVFileRowRepository,
-    CSVParsingQueue,
+    CSVParsingQueueProducer,
+    CSVParsingQueueConsumer,
   ],
 })
 export class CSVModule {}
