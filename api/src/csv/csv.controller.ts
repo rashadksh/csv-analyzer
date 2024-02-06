@@ -9,6 +9,8 @@ import {
   ParseFilePipeBuilder,
   HttpStatus,
   Logger,
+  Get,
+  Param,
 } from '@nestjs/common';
 
 import { CreateCSVFileDTO } from '@csv-analyzer/types';
@@ -26,7 +28,18 @@ const MAX_FILE_SIZE_BYTES = 1000 * 1024; // 1MB
 export class CSVController {
   constructor(private csvService: CSVService) {}
 
-  @Post('process')
+  @Get('/')
+  async getAllCSVFiles() {
+    try {
+      const fileEntities = await this.csvService.getAllCSVFiles();
+      return CSVFileMapper.dbToJSONBulk(fileEntities);
+    } catch (e) {
+      Logger.error(`Failed getting csv file by id - ${e}`);
+      CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
+    }
+  }
+
+  @Post('/')
   @UseInterceptors(
     FileInterceptor('file', {
       storage: diskStorage({
@@ -60,6 +73,17 @@ export class CSVController {
       return CSVFileMapper.dbToJSON(fileEntity);
     } catch (e) {
       Logger.error(`Failed uploading file - ${e}`);
+      CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
+    }
+  }
+
+  @Get('/:id')
+  async getCSVFile(@Param('id') id: string) {
+    try {
+      const fileEntity = await this.csvService.getFileById(id);
+      return CSVFileMapper.dbToJSON(fileEntity);
+    } catch (e) {
+      Logger.error(`Failed getting csv file by id - ${e}`);
       CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
     }
   }

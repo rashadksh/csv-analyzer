@@ -10,5 +10,6 @@ export interface CSVFileRepository {
   ): Promise<CSVFileEntity>;
   setFileHeaderById(id: string, header: string[]): Promise<CSVFileEntity>;
   setFileCharts(id: string, charts: any[]): Promise<CSVFileEntity>;
+  getAllFiles(): Promise<CSVFileEntity[]>;
   getFileById(id: string): Promise<CSVFileEntity | undefined>;
 }

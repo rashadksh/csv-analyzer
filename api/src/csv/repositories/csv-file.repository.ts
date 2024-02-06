@@ -16,6 +16,10 @@ export class MongoCSVFileRepository implements CSVFileRepository {
     this.collection = db.collection<CSVFileEntity>('csv-files');
   }
 
+  getAllFiles(): Promise<CSVFileEntity[]> {
+    return this.collection.find().toArray();
+  }
+
   async insertFile(data: Omit<CSVFileEntity, '_id'>): Promise<CSVFileEntity> {
     const { insertedId } = await this.collection.insertOne({
       _id: new ObjectId().toHexString(),
@@ -23,10 +27,6 @@ export class MongoCSVFileRepository implements CSVFileRepository {
     });
 
     return this.getFileById(insertedId);
-  }
-
-  getFileById(id: string): Promise<CSVFileEntity> {
-    return this.collection.findOne({ _id: id });
   }
 
   async setFileStateById(
@@ -72,5 +72,9 @@ export class MongoCSVFileRepository implements CSVFileRepository {
     );
 
     return this.getFileById(id);
+  }
+
+  getFileById(id: string): Promise<CSVFileEntity> {
+    return this.collection.findOne({ _id: id });
   }
 }

@@ -12,4 +12,8 @@ export class CSVFileMapper {
       createdAt: file.createdAt,
     };
   }
+
+  static dbToJSONBulk(files: CSVFileEntity[]) {
+    return files.map(this.dbToJSON);
+  }
 }
