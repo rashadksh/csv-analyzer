@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 
 import { InfraModule } from './infra/infra.module';
+import { CSVModule } from './csv/csv.module';
 
 @Module({
-  imports: [InfraModule],
+  imports: [InfraModule, CSVModule],
   controllers: [],
   providers: [],
 })

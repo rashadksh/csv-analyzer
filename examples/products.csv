@@ -1,0 +1,26 @@
+id,name,category,price,quantity_sold
+1,Smartphone,Electronics,599,1000
+2,Laptop,Electronics,999,750
+3,Headphones,Electronics,99,2000
+4,Tablet,Electronics,399,500
+5,Smartwatch,Electronics,199,1500
+6,Desk,Office Supplies,149,300
+7,Chair,Office Supplies,79,600
+8,Pen,Office Supplies,1.5,5000
+9,Notebook,Office Supplies,3,2000
+10,Backpack,Office Supplies,25,1000
+11,TV,Electronics,799,400
+12,Printer,Electronics,299,300
+13,Mouse,Electronics,20,1500
+14,Keyboard,Electronics,30,1000
+15,External Hard Drive,Electronics,79,800
+16,Desk Lamp,Office Supplies,15,800
+17,Stapler,Office Supplies,5,1200
+18,Calculator,Office Supplies,10,1000
+19,Power Bank,Electronics,49,1500
+20,USB Flash Drive,Electronics,10,2000
+21,Water Bottle,Home & Kitchen,8,3000
+22,Coffee Maker,Home & Kitchen,39,800
+23,Blender,Home & Kitchen,49,500
+24,Cookware Set,Home & Kitchen,149,400
+25,Dining Table,Home & Kitchen,299,300
