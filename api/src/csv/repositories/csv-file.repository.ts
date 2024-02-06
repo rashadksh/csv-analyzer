@@ -1,15 +1,19 @@
 import { Collection, Db, ObjectId } from 'mongodb';
 import { Inject, Injectable } from '@nestjs/common';
 
-import { DI } from '../di';
-import { CSVFileEntity, CSVRepository, CSVFileEntityState } from '../types';
+import { DI } from '../../di';
+import {
+  CSVFileEntity,
+  CSVFileRepository,
+  CSVFileEntityState,
+} from '../../types';
 
 @Injectable()
-export class MongoCSVRepository implements CSVRepository {
+export class MongoCSVFileRepository implements CSVFileRepository {
   private collection: Collection<CSVFileEntity>;
 
   constructor(@Inject(DI.DB) db: Db) {
-    this.collection = db.collection<CSVFileEntity>('files');
+    this.collection = db.collection<CSVFileEntity>('csv-files');
   }
 
   async insertFile(data: Omit<CSVFileEntity, '_id'>): Promise<CSVFileEntity> {

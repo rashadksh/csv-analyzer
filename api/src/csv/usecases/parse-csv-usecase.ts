@@ -2,14 +2,18 @@ import fs from 'fs';
 import csvParser from 'csv-parser';
 
 import {
-  CSVRepository,
+  CSVFileRepository,
   CSVFileEntity,
   CSVFileEntityState,
   UseCase,
+  CSVFileRowRepository,
 } from '../../types';
 
 export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
-  constructor(private csvFileRepository: CSVRepository) {}
+  constructor(
+    private csvFileRepository: CSVFileRepository,
+    private csvFileRowRepository: CSVFileRowRepository
+  ) {}
 
   async execute(file: CSVFileEntity): Promise<void> {
     await this.csvFileRepository.setFileStateById(
@@ -17,7 +21,7 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
       CSVFileEntityState.PARSING
     );
 
-    await new Promise((resolve, reject) => {
+    const rows = await new Promise<any[]>((resolve, reject) => {
       const rows: any[] = [];
       fs.createReadStream(file.path)
         .pipe(csvParser())
@@ -29,6 +33,8 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
           reject(error);
         });
     });
+
+    await this.csvFileRowRepository.insertFileRows(file._id, rows);
 
     await this.csvFileRepository.setFileStateById(
       file._id,

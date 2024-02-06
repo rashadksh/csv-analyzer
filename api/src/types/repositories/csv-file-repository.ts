@@ -1,6 +1,6 @@
 import { CSVFileEntity, CSVFileEntityState } from '../entities/csv-file';
 
-export interface CSVRepository {
+export interface CSVFileRepository {
   insertFile(data: Omit<CSVFileEntity, '_id'>): Promise<CSVFileEntity>;
   setFileStateById(
     id: string,

@@ -6,7 +6,8 @@ import { InfraModule } from '../infra/infra.module';
 
 import { CSVController } from './csv.controller';
 import { CSVService } from './csv.service';
-import { MongoCSVRepository } from './csv.repository';
+import { MongoCSVFileRepository } from './repositories/csv-file.repository';
+import { MongoCSVFileRowRepository } from './repositories/csv-file-row.repository';
 import { CSVParsingQueue } from './csv-parsing.queue';
 
 @Module({
@@ -17,6 +18,11 @@ import { CSVParsingQueue } from './csv-parsing.queue';
     }),
   ],
   controllers: [CSVController],
-  providers: [CSVService, MongoCSVRepository, CSVParsingQueue],
+  providers: [
+    CSVService,
+    MongoCSVFileRepository,
+    MongoCSVFileRowRepository,
+    CSVParsingQueue,
+  ],
 })
 export class CSVModule {}

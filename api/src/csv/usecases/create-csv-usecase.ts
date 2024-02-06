@@ -1,7 +1,7 @@
 import { CreateCSVFileDTO } from '@csv-analyzer/types';
 
 import {
-  CSVRepository,
+  CSVFileRepository,
   CSVFileEntity,
   CSVFileEntityState,
   UseCase,
@@ -12,7 +12,7 @@ export class CreateCSVUseCase
   implements UseCase<CreateCSVFileDTO, Promise<CSVFileEntity>>
 {
   constructor(
-    private fileRepository: CSVRepository,
+    private fileRepository: CSVFileRepository,
     private parsingQueue: CSVAnalyzerQueue
   ) {}
 

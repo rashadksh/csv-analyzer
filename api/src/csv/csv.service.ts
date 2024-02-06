@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCSVFileDTO } from '@csv-analyzer/types';
 
-import { MongoCSVRepository } from './csv.repository';
+import { MongoCSVFileRepository } from './repositories/csv-file.repository';
 import { CreateCSVUseCase } from './usecases/create-csv-usecase';
 import { CSVParsingQueue } from './csv-parsing.queue';
 
 @Injectable()
 export class CSVService {
   constructor(
-    private csvRepository: MongoCSVRepository,
+    private csvRepository: MongoCSVFileRepository,
     private csvParsingQueue: CSVParsingQueue
   ) {}
 
