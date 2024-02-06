@@ -11,6 +11,7 @@ import {
   Logger,
   Get,
   Param,
+  Body,
 } from '@nestjs/common';
 
 import { CreateCSVFileDTO } from '@csv-analyzer/types';
@@ -83,7 +84,23 @@ export class CSVController {
       const fileEntity = await this.csvService.getFileById(id);
       return CSVFileMapper.dbToJSON(fileEntity);
     } catch (e) {
-      Logger.error(`Failed getting csv file by id - ${e}`);
+      Logger.error(`Failed getting csv file of id ${id} - ${e}`);
+      CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
+    }
+  }
+
+  @Post('/:id/ask')
+  async askCSVFile(
+    @Param('id') id: string,
+    @Body('question') question: string
+  ) {
+    try {
+      const answer = await this.csvService.talkToCSVFileById(id, question);
+      return {
+        answer,
+      };
+    } catch (e) {
+      Logger.error(`Failed asking csv file of id ${id} - ${e}`);
       CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
     }
   }

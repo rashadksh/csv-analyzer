@@ -14,7 +14,11 @@ Some of the columns will represent description text, others will represent stati
 Your task is to provide 4 metrics from the data like average, total, count, max 5, min 5 or any other aggregation function then you will return these metrics as a json array.
 Each array item will contain title of the metrics you generated, its type (number, pie, line, bar) and values which will be an array of two fields, key and value.
 An example output would be: [{"title":"Total sold by category","type":"pie","values":[{"name":'Electronics',"value": 10}]}]
-  `;
+`;
+
+  private talkToCSVFilePrompt = `
+You are provided this random csv data. Please answer my questions about it. Here's the data:
+`;
 
   constructor(configService: ConfigService) {
     this.client = new OpenAI({
@@ -40,5 +44,25 @@ An example output would be: [{"title":"Total sold by category","type":"pie","val
     });
 
     return JSON.parse(response.choices[0].message.content);
+  }
+
+  async askCSVFile(csvContent: string, question: string): Promise<string> {
+    const response = await this.client.chat.completions.create({
+      model: 'gpt-3.5-turbo-16k',
+      messages: [
+        {
+          role: 'system',
+          content: `${this.talkToCSVFilePrompt}\n${csvContent}`,
+        },
+        {
+          role: 'user',
+          content: question,
+        },
+      ],
+      temperature: 1,
+      top_p: 1,
+    });
+
+    return response.choices[0].message.content;
   }
 }
