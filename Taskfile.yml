@@ -1,0 +1,8 @@
+version: '3'
+
+tasks:
+  dev: docker compose --env-file .env up -d
+  down: docker compose down
+  restart: docker compose restart {{.CLI_ARGS}}
+  logs: docker compose logs -f --tail 50 {{.CLI_ARGS}}
+  bash: docker compose exec {{.CLI_ARGS}} /bin/bash

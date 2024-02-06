@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  api:
+    image: csvanalyzer-api
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nx
+      - /app/dist
+    command: yarn run dev:api
+    ports:
+      - 3000:3000
+    networks:
+      csvanalyzer: {}
+    depends_on:
+      - mongodb
+
+  frontend:
+    image: csvanalyzer-ui
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.nx
+      - /app/dist
+    command: yarn run dev:frontend
+    ports:
+      - 4200:4200
+    networks:
+      csvanalyzer: {}
+    depends_on:
+      - api
+
+  mongodb:
+    image: mongo:5
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+    ports:
+      - 27037:27017
+    networks:
+      csvanalyzer: {}
+
+networks:
+  csvanalyzer:
