@@ -1,4 +1,4 @@
-export enum FileEntityState {
+export enum CSVFileEntityState {
   UPLOADED = 'uploaded',
   PARSING = 'parsing',
   DONE_PARSING = 'done_parsing',
@@ -7,11 +7,11 @@ export enum FileEntityState {
   FAILED = 'failed',
 }
 
-export interface FileEntity {
+export interface CSVFileEntity {
   _id: string;
   name: string;
   path: string;
-  state: FileEntityState;
+  state: CSVFileEntityState;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -1,7 +1,7 @@
-import { FileEntity } from '../types';
+import { CSVFileEntity } from '../types';
 
 export class CSVFileMapper {
-  static dbToJSON(file: FileEntity) {
+  static dbToJSON(file: CSVFileEntity) {
     return {
       id: file._id.toString(),
       name: file.name,

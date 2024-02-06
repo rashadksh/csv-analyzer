@@ -3,18 +3,18 @@ import csvParser from 'csv-parser';
 
 import {
   CSVRepository,
-  FileEntity,
-  FileEntityState,
+  CSVFileEntity,
+  CSVFileEntityState,
   UseCase,
 } from '../../types';
 
-export class ParseCSVFileUseCase implements UseCase<FileEntity, void> {
+export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
   constructor(private csvFileRepository: CSVRepository) {}
 
-  async execute(file: FileEntity): Promise<void> {
+  async execute(file: CSVFileEntity): Promise<void> {
     await this.csvFileRepository.setFileStateById(
       file._id,
-      FileEntityState.PARSING
+      CSVFileEntityState.PARSING
     );
 
     await new Promise((resolve, reject) => {
@@ -32,7 +32,7 @@ export class ParseCSVFileUseCase implements UseCase<FileEntity, void> {
 
     await this.csvFileRepository.setFileStateById(
       file._id,
-      FileEntityState.DONE_PARSING
+      CSVFileEntityState.DONE_PARSING
     );
   }
 }

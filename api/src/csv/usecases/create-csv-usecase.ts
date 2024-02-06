@@ -2,25 +2,25 @@ import { CreateCSVFileDTO } from '@csv-analyzer/types';
 
 import {
   CSVRepository,
-  FileEntity,
-  FileEntityState,
+  CSVFileEntity,
+  CSVFileEntityState,
   UseCase,
   CSVAnalyzerQueue,
 } from '../../types';
 
 export class CreateCSVUseCase
-  implements UseCase<CreateCSVFileDTO, Promise<FileEntity>>
+  implements UseCase<CreateCSVFileDTO, Promise<CSVFileEntity>>
 {
   constructor(
     private fileRepository: CSVRepository,
     private parsingQueue: CSVAnalyzerQueue
   ) {}
 
-  async execute(input: CreateCSVFileDTO): Promise<FileEntity> {
+  async execute(input: CreateCSVFileDTO): Promise<CSVFileEntity> {
     const fileEntity = await this.fileRepository.insertFile({
       name: input.name,
       path: input.path,
-      state: FileEntityState.UPLOADED,
+      state: CSVFileEntityState.UPLOADED,
       createdAt: new Date(),
       updatedAt: new Date(),
     });
