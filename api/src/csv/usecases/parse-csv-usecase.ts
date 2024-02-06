@@ -8,6 +8,7 @@ import {
   UseCase,
   CSVFileRowRepository,
 } from '../../types';
+import { transformCSVParseOutputToObject } from '../../lib/utils';
 
 export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
   constructor(
@@ -21,10 +22,30 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
       CSVFileEntityState.PARSING
     );
 
-    const rows = await new Promise<any[]>((resolve, reject) => {
+    const [header, ...rows] = await this.parseCSVFile(file.path);
+
+    const headerValues = Object.values<string>(header);
+    await this.csvFileRepository.setFileHeaderById(file._id, headerValues);
+
+    const rowsObjects = rows.map((row) =>
+      transformCSVParseOutputToObject(headerValues, row)
+    );
+    await this.csvFileRowRepository.insertFileRows(file._id, rowsObjects);
+    await this.csvFileRepository.setFileStateById(
+      file._id,
+      CSVFileEntityState.DONE_PARSING
+    );
+  }
+
+  private parseCSVFile(filePath: string): Promise<any[]> {
+    return new Promise<any[]>((resolve, reject) => {
       const rows: any[] = [];
-      fs.createReadStream(file.path)
-        .pipe(csvParser())
+      fs.createReadStream(filePath)
+        .pipe(
+          csvParser({
+            headers: true,
+          })
+        )
         .on('data', (row) => rows.push(row))
         .on('end', async () => {
           resolve(rows);
@@ -33,12 +54,5 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
           reject(error);
         });
     });
-
-    await this.csvFileRowRepository.insertFileRows(file._id, rows);
-
-    await this.csvFileRepository.setFileStateById(
-      file._id,
-      CSVFileEntityState.DONE_PARSING
-    );
   }
 }

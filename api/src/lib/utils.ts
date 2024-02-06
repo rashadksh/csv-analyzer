@@ -5,3 +5,12 @@ export function convertFileNameToTitle(fileName: string): string {
     fileNameWithoutExtension.slice(1);
   return capitalizedFileName;
 }
+
+export function transformCSVParseOutputToObject(header: string[], row: object) {
+  const rowObject: Record<string, unknown> = {};
+  const rowValues = Object.values(row);
+  header.forEach((column, index) => {
+    rowObject[column] = rowValues[index];
+  });
+  return rowObject;
+}

@@ -44,4 +44,20 @@ export class MongoCSVFileRepository implements CSVFileRepository {
 
     return this.getFileById(id);
   }
+
+  async setFileHeaderById(
+    id: string,
+    header: string[]
+  ): Promise<CSVFileEntity> {
+    await this.collection.updateOne(
+      { _id: id },
+      {
+        $set: {
+          header,
+        },
+      }
+    );
+
+    return this.getFileById(id);
+  }
 }
