@@ -12,4 +12,12 @@ export class ConfigService {
   getMongodbDabaseName(): string {
     return this.configService.get('MONGODB_DATABASE');
   }
+
+  getRedisHost(): string {
+    return this.configService.get('REDIS_HOST');
+  }
+
+  getRedisPort(): number {
+    return this.configService.get('REDIS_PORT');
+  }
 }
