@@ -1,11 +1,9 @@
-import { Route, Routes } from 'react-router-dom';
+import Routes from './routes';
 
 export function App() {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<div>Hello world</div>} />
-      </Routes>
+      <Routes />
     </div>
   );
 }
