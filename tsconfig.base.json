@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@csv-analyzer/types": ["lib/types/src/index.ts"]
+      "@csv-analyzer/types": ["lib/types/src/index.ts"],
+      "@csv-analyzer/validations": ["lib/validations/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

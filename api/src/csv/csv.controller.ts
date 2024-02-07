@@ -12,13 +12,15 @@ import {
   Get,
   Param,
   Body,
+  UsePipes,
 } from '@nestjs/common';
-
-import { CreateCSVFileDTO } from '@csv-analyzer/types';
+import { AskCSVFileDTO, CreateCSVFileDTO } from '@csv-analyzer/types';
+import { askCSVFileValidationSchema } from '@csv-analyzer/validations';
 
 import { FILE_UPLOAD_DESTINATION } from '../constants';
 import { convertFileNameToTitle } from '../lib/utils';
 import { CSVAnalyzerHTTPError } from '../lib/errors/csv-analyzer-http-errors';
+import { JoiValidationPipe } from '../lib/joi-validation-pipe';
 
 import { CSVService } from './csv.service';
 import { CSVFileMapper } from './csv.mapper';
@@ -94,12 +96,10 @@ export class CSVController {
   }
 
   @Post('/:id/ask')
-  async askCSVFile(
-    @Param('id') id: string,
-    @Body('question') question: string
-  ) {
+  @UsePipes(new JoiValidationPipe(askCSVFileValidationSchema))
+  async askCSVFile(@Param('id') id: string, @Body() body: AskCSVFileDTO) {
     try {
-      const answer = await this.csvService.talkToCSVFileById(id, question);
+      const answer = await this.csvService.talkToCSVFileById(id, body.question);
       return {
         answer,
       };
