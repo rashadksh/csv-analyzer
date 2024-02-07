@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 
 import DashboardLayout from './layouts/dashboard-layout';
-import { Typography } from '@mui/material';
+import ProcessFilePage from './pages/process-file-page';
 
 export interface RoutesProps {}
 
@@ -14,10 +14,7 @@ export const Routes: React.FC<RoutesProps> = () => {
     <BrowserRouter>
       <ReactRouterRoutes>
         <Route path="/" element={<DashboardLayout />}>
-          <Route
-            index
-            element={<Typography variant="h4">Hello world</Typography>}
-          />
+          <Route index element={<ProcessFilePage />} />
         </Route>
       </ReactRouterRoutes>
     </BrowserRouter>
