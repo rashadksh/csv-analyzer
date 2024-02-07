@@ -6,6 +6,10 @@ An AI based csv analyzer
 
 ![System pipeline](./system.png)
 
+## Demo
+
+Watch system demo [here](https://www.loom.com/share/840f089e67de42ad93e6bc14704d0a62).
+
 ## Development
 
 ### Prerequisites
