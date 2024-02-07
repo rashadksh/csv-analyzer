@@ -1,6 +1,6 @@
 ## CSV Analyzer
 
-An AI based csv analyzer
+Analyze your csv files and extract metrics and statistics with the help of AI. Talk to your csv files as if you're talking to a professional data analyst.
 
 ## System overview
 
