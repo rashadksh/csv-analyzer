@@ -99,6 +99,7 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
                   sx={{
                     background: (theme) => theme.palette.common.white,
                     boxShadow: (theme) => theme.shadows[1],
+                    overflowX: 'scroll',
                   }}
                 >
                   <Table
