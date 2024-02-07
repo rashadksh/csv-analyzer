@@ -2,13 +2,13 @@
 
 Analyze your csv files and extract metrics and statistics with the help of AI. Talk to your csv files as if you're talking to a professional data analyst.
 
-## System overview
-
-![System pipeline](./system.png)
-
 ## Demo
 
 Watch system demo [here](https://www.loom.com/share/840f089e67de42ad93e6bc14704d0a62).
+
+## System overview
+
+![System pipeline](./system.png)
 
 ## Development
 
