@@ -1,4 +1,5 @@
 import { CSVFileChart, CSVFileState } from '@csv-analyzer/types';
+import { GridColDef } from '@mui/x-data-grid';
 
 export function getCSVFileProcessingProgress(state: CSVFileState): number {
   switch (state) {
@@ -48,4 +49,39 @@ export function getCSVFileChartLabels(chart: CSVFileChart) {
 
 export function getCSVFileChartValues(chart: CSVFileChart) {
   return chart.values.map((value) => value.value);
+}
+
+export function transformCSVRowIntoDataGridColumns(row: object): GridColDef[] {
+  return Object.keys(row)
+    .filter((key) => !['_id', 'fileId'].includes(key))
+    .map((key) => ({
+      field: key,
+      headerName: toTitleCase(key),
+      width: 200,
+    }));
+}
+
+export function toTitleCase(str: string): string {
+  // Convert snake_case to title case
+  if (str.includes('_')) {
+    return str
+      .split('_')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+  // Convert kebab-case to title case
+  if (str.includes('-')) {
+    return str
+      .split('-')
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+  // Convert camelCase to title case
+  if (str.match(/[A-Z]/) && str.match(/[a-z]/)) {
+    return str.replace(/^[a-z]|[A-Z]/g, (match, index) =>
+      index === 0 ? match.toUpperCase() : ' ' + match.toUpperCase()
+    );
+  }
+  // If already in title case, return as is
+  return str;
 }

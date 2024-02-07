@@ -11,6 +11,7 @@ import {
   getCSVFileProcessingProgress,
   getCSVFileStateText,
   transformCSVFileChartIntoPieChartData,
+  transformCSVRowIntoDataGridColumns,
 } from '../lib/util';
 import Loading from '../components/loading';
 import PageError from '../components/page-error';
@@ -19,6 +20,7 @@ import BarChart from '../components/bar-chart';
 import NumberChart from '../components/number-chart';
 import PieChart from '../components/pie-chart';
 import JsonChart from '../components/json-chart';
+import Table from '../components/table';
 
 export interface ExploreFilePageProps {}
 
@@ -27,7 +29,7 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
   const { data, isLoading, isError } = useCSVFileById(id!);
 
   const file = data?.file;
-  // const rows = data?.rows;
+  const rows = data?.rows ?? [{}];
 
   const isFileProcessing =
     file &&
@@ -64,7 +66,7 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
               {file.charts.map((chart, index) => (
                 <Grid item key={index} xs={12} lg={6}>
                   <Box
-                    height={'100%'}
+                    height="100%"
                     padding={3}
                     sx={{
                       background: (theme) => theme.palette.common.white,
@@ -91,6 +93,22 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
                   </Box>
                 </Grid>
               ))}
+              <Grid item xs={12}>
+                <Box
+                  height="100%"
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: (theme) => theme.shadows[1],
+                  }}
+                >
+                  <Table
+                    rowIdKey="_id"
+                    columns={transformCSVRowIntoDataGridColumns(rows[0])}
+                    data={rows}
+                    pageSize={10}
+                  />
+                </Box>
+              </Grid>
             </Grid>
           ) : null}
         </Box>
