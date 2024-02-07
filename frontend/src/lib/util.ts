@@ -36,7 +36,7 @@ export function getCSVFileStateText(state: CSVFileState): string {
 
 export function transformCSVFileChartIntoPieChartData(chart: CSVFileChart) {
   return chart.values.map((value, idx) => ({
-    id: idx,
+    id: `${idx}`,
     value: Number(value.value),
     label: value.name || value.key || '',
   }));

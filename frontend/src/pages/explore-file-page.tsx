@@ -21,7 +21,10 @@ export interface ExploreFilePageProps {}
 
 export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: file, isLoading, isError } = useCSVFileById(id!);
+  const { data, isLoading, isError } = useCSVFileById(id!);
+
+  const file = data?.file;
+  // const rows = data?.rows;
 
   const isFileProcessing =
     file &&

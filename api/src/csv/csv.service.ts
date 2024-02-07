@@ -30,9 +30,12 @@ export class CSVService {
   }
 
   async getFileById(id: string) {
-    const getCsvFileUsecase = new GetCSVFileUseCase(this.csvRepository);
-    const fileEntity = await getCsvFileUsecase.execute(id);
-    return fileEntity;
+    const getCsvFileUsecase = new GetCSVFileUseCase(
+      this.csvRepository,
+      this.csvFileRowRepository
+    );
+    const fileWithRows = await getCsvFileUsecase.execute(id);
+    return fileWithRows;
   }
 
   async getAllCSVFiles() {

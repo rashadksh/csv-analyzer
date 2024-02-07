@@ -9,7 +9,9 @@ export async function getAllCSVFiles() {
 }
 
 export async function getCSVFileById(id: string) {
-  const { data } = await baseAPI.get<CSVFileModel>(`/csv/${id}`);
+  const { data } = await baseAPI.get<{ file: CSVFileModel; rows: any[] }>(
+    `/csv/${id}`
+  );
   return data;
 }
 

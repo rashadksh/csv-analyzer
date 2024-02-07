@@ -4,7 +4,7 @@ import { PiePlot } from '@mui/x-charts/PieChart';
 import { ChartsTooltip } from '@mui/x-charts/ChartsTooltip';
 
 export interface PieChartProps {
-  data: { id: number; value: number; label: string }[];
+  data: { id: string; value: number; label: string }[];
 }
 
 export const PieChart: React.FC<PieChartProps> = ({ data }) => {

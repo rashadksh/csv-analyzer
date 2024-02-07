@@ -81,8 +81,12 @@ export class CSVController {
   @Get('/:id')
   async getCSVFile(@Param('id') id: string) {
     try {
-      const fileEntity = await this.csvService.getFileById(id);
-      return CSVFileMapper.dbToJSON(fileEntity);
+      const { file, rows } = await this.csvService.getFileById(id);
+      const mappedFile = CSVFileMapper.dbToJSON(file);
+      return {
+        file: mappedFile,
+        rows,
+      };
     } catch (e) {
       Logger.error(`Failed getting csv file of id ${id} - ${e}`);
       CSVAnalyzerHTTPError.throwHttpErrorFromIWillError(e);
