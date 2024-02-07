@@ -1,0 +1,17 @@
+Pull Request Title,Open Date,Number of Commits,Label,Number of Lines Changed,Author Name,Cycle Time,State
+Update README.md,2024-01-01,3,bug fix,25,John Doe,10,merged
+Add new feature,2024-01-02,5,enhancement,50,Jane Smith,8,merged
+Fix issue #123,2024-01-03,2,bug fix,15,Michael Johnson,12,merged
+Implement authentication,2024-01-04,7,feature,75,Alice Brown,15,merged
+Refactor codebase,2024-01-05,4,refactor,40,David Wilson,9,merged
+Update dependencies,2024-01-06,2,dependency,20,Emily Miller,11,merged
+Fix CSS styling,2024-01-07,3,bug fix,30,Sarah Lee,7,merged
+Add unit tests,2024-01-08,6,testing,60,Matthew Garcia,14,merged
+Optimize database queries,2024-01-09,4,performance,45,Olivia Taylor,10,merged
+Resolve merge conflict,2024-01-10,2,bug fix,10,Daniel Martinez,8,merged
+Implement new API endpoint,2024-01-11,8,feature,80,Sophia Hernandez,16,merged
+Update error handling,2024-01-12,3,bug fix,35,Ethan Gonzalez,9,merged
+Add documentation,2024-01-13,5,documentation,55,Isabella Perez,12,merged
+Fix broken tests,2024-01-14,4,testing,45,Mason Carter,11,merged
+Improve user interface,2024-01-15,6,enhancement,70,Ava Torres,13,merged
+Update configuration files,2024-01-16,3,configuration,25,Aiden Collins,10,merged

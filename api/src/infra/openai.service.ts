@@ -11,8 +11,8 @@ export class OpenAIService implements AIService {
   private generateChartsPrompt = `
 You will be provided with random csv data. The first row will represent the csv header. The other rows will represent the data.
 Some of the columns will represent description text, others will represent statistical data like price of a product or marks of a student.
-Your task is to provide 4 metrics from the data like average, total, count, max 5, min 5 or any other aggregation function then you will return these metrics as a json array.
-Each array item will contain title of the metrics you generated, its type (number, pie, line, bar) and values which will be an array of two fields, key and value.
+Your task is to provide at least 4 metrics of different type from the data like average, total, count, max 5, min 5 or any other aggregation function then you will return these metrics as a json array.
+Each array item will contain title of the metrics you generated, its type (pie, bar, number) and values which will be an array of two fields, key and value. The output must be a json array.
 An example output would be: [{"title":"Total sold by category","type":"pie","values":[{"name":'Electronics',"value": 10}]}]
 `;
 
@@ -43,7 +43,16 @@ You are provided this random csv data. Please answer my questions about it. Here
       top_p: 1,
     });
 
-    return JSON.parse(response.choices[0].message.content);
+    const charts = JSON.parse(response.choices[0].message.content);
+
+    if (!Array.isArray(charts)) {
+      if (Array.isArray(Object.values(charts)[0])) {
+        return Object.values(charts)[0] as any[];
+      }
+      throw new Error('Csv file analyzing failed');
+    }
+
+    return charts;
   }
 
   async askCSVFile(csvContent: string, question: string): Promise<string> {

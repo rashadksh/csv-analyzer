@@ -1,9 +1,9 @@
 import { json2csv } from 'json-2-csv';
+import { CSVFileState } from '@csv-analyzer/types';
 
 import { AIService } from '../../types/services/ai.service';
 import {
   CSVFileEntity,
-  CSVFileEntityState,
   CSVFileRepository,
   CSVFileRowRepository,
   UseCase,
@@ -21,7 +21,7 @@ export class GenerateCSVFileChartsUseCase
   async execute(file: CSVFileEntity): Promise<void> {
     await this.csvFileRepository.setFileStateById(
       file._id,
-      CSVFileEntityState.ANALYZING
+      CSVFileState.ANALYZING
     );
 
     const rows = await this.csvFileRowRepository.getFileRowsById(file._id);
@@ -32,9 +32,6 @@ export class GenerateCSVFileChartsUseCase
     const charts = await this.aiService.generateCSVFileCharts(csvContent);
     await this.csvFileRepository.setFileCharts(file._id, charts);
 
-    await this.csvFileRepository.setFileStateById(
-      file._id,
-      CSVFileEntityState.DONE
-    );
+    await this.csvFileRepository.setFileStateById(file._id, CSVFileState.DONE);
   }
 }

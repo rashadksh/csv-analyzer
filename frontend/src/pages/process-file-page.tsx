@@ -21,7 +21,7 @@ export const ProcessFilePage: React.FC<ProcessFilePageProps> = () => {
       const formData = new FormData();
       formData.append('file', file);
       const uploadedFile = await uploadFile(formData);
-      navigate(`/csv/${uploadedFile.id}`);
+      navigate(`/file/${uploadedFile.id}`);
     } catch {
       alert('error');
     }

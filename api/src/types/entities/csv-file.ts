@@ -1,17 +1,10 @@
-export enum CSVFileEntityState {
-  UPLOADED = 'uploaded',
-  PARSING = 'parsing',
-  DONE_PARSING = 'done_parsing',
-  ANALYZING = 'analyzing',
-  DONE = 'done',
-  FAILED = 'failed',
-}
+import { CSVFileState } from '@csv-analyzer/types';
 
 export interface CSVFileEntity {
   _id: string;
   name: string;
   path: string;
-  state: CSVFileEntityState;
+  state: CSVFileState;
   charts: any[];
   header: string[];
   createdAt: Date;

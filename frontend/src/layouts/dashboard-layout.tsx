@@ -3,7 +3,10 @@ import { Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 
-import { DASHBOARD_LAYOUT_DRAWER_WIDTH } from '../constants';
+import {
+  DASHBOARD_LAYOUT_DRAWER_WIDTH,
+  DASHBOARD_LAYOUT_NAVBAR_HEIGHT,
+} from '../constants';
 import DashboardLayoutSidebar from './components/dashboard-layout-sidebar';
 import DashboardLayoutNavbar from './components/dashboard-layout-navbar';
 
@@ -42,6 +45,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = () => {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${DASHBOARD_LAYOUT_DRAWER_WIDTH}px)` },
+          minHeight: `calc(100vh - ${DASHBOARD_LAYOUT_NAVBAR_HEIGHT}px)`,
         }}
       >
         <Toolbar />

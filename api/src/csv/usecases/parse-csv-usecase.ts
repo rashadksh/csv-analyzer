@@ -1,10 +1,10 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
+import { CSVFileState } from '@csv-analyzer/types';
 
 import {
   CSVFileRepository,
   CSVFileEntity,
-  CSVFileEntityState,
   UseCase,
   CSVFileRowRepository,
   QueueProducer,
@@ -21,7 +21,7 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
   async execute(file: CSVFileEntity): Promise<void> {
     await this.csvFileRepository.setFileStateById(
       file._id,
-      CSVFileEntityState.PARSING
+      CSVFileState.PARSING
     );
 
     const { header, rows } = await this.parseCSVFile(file.path);
@@ -31,7 +31,7 @@ export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
 
     await this.csvFileRepository.setFileStateById(
       file._id,
-      CSVFileEntityState.DONE_PARSING
+      CSVFileState.DONE_PARSING
     );
 
     await this.csvAnalyzingQueueProducer.addJob({ id: file._id });

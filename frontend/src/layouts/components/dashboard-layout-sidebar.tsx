@@ -34,7 +34,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { data: csvFiles, isLoading, isError } = useAllCSVFiles();
-  const [isFilesListOpen, setFilesListOpen] = useState(false);
+  const [isFilesListOpen, setFilesListOpen] = useState(true);
 
   const handleToggleFilesList = () => setFilesListOpen((current) => !current);
 
@@ -42,7 +42,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-  const isEmptyFiles = csvFiles?.length <= 0;
+  const isEmptyFiles = csvFiles && csvFiles.length <= 0;
 
   const drawer = (
     <div>
@@ -50,7 +50,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
       <Divider />
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate('/')}>
             <ListItemIcon>
               <TroubleshootIcon />
             </ListItemIcon>
@@ -94,7 +94,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
                   </ListItemText>
                 </ListItem>
               ) : (
-                csvFiles.map((file: any) => (
+                csvFiles?.map((file: any) => (
                   <ListItemButton
                     key={file.id}
                     onClick={() => navigate(`/file/${file.id}`)}
@@ -118,8 +118,8 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
     <Box
       component="nav"
       sx={{
-        width: { sm: DASHBOARD_LAYOUT_DRAWER_WIDTH },
-        flexShrink: { sm: 0 },
+        width: { md: DASHBOARD_LAYOUT_DRAWER_WIDTH },
+        flexShrink: { md: 0 },
       }}
     >
       <Drawer
@@ -132,7 +132,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: 'block', sm: 'none' },
+          display: { xs: 'block', md: 'none' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: DASHBOARD_LAYOUT_DRAWER_WIDTH,
@@ -144,7 +144,7 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: 'none', sm: 'block' },
+          display: { xs: 'none', md: 'block' },
           '& .MuiDrawer-paper': {
             boxSizing: 'border-box',
             width: DASHBOARD_LAYOUT_DRAWER_WIDTH,

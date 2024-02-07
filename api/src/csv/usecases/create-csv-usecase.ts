@@ -1,9 +1,8 @@
-import { CreateCSVFileDTO } from '@csv-analyzer/types';
+import { CSVFileState, CreateCSVFileDTO } from '@csv-analyzer/types';
 
 import {
   CSVFileRepository,
   CSVFileEntity,
-  CSVFileEntityState,
   UseCase,
   QueueProducer,
 } from '../../types';
@@ -20,7 +19,7 @@ export class CreateCSVUseCase
     const fileEntity = await this.fileRepository.insertFile({
       name: input.name,
       path: input.path,
-      state: CSVFileEntityState.UPLOADED,
+      state: CSVFileState.UPLOADED,
       charts: [],
       createdAt: new Date(),
       updatedAt: new Date(),

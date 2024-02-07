@@ -1,12 +1,9 @@
 import { Collection, Db, ObjectId } from 'mongodb';
 import { Inject, Injectable } from '@nestjs/common';
+import { CSVFileState } from '@csv-analyzer/types';
 
 import { DI } from '../../di';
-import {
-  CSVFileEntity,
-  CSVFileRepository,
-  CSVFileEntityState,
-} from '../../types';
+import { CSVFileEntity, CSVFileRepository } from '../../types';
 
 @Injectable()
 export class MongoCSVFileRepository implements CSVFileRepository {
@@ -31,7 +28,7 @@ export class MongoCSVFileRepository implements CSVFileRepository {
 
   async setFileStateById(
     id: string,
-    state: CSVFileEntityState
+    state: CSVFileState
   ): Promise<CSVFileEntity> {
     await this.collection.updateOne(
       { _id: id },

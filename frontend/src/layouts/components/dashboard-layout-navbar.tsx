@@ -17,8 +17,8 @@ export const DashboardLayoutNavbar: React.FC<DashboardLayoutNavbarProps> = ({
     <AppBar
       position="fixed"
       sx={{
-        width: { sm: `calc(100% - ${DASHBOARD_LAYOUT_DRAWER_WIDTH}px)` },
-        ml: { sm: `${DASHBOARD_LAYOUT_DRAWER_WIDTH}px` },
+        width: { md: `calc(100% - ${DASHBOARD_LAYOUT_DRAWER_WIDTH}px)` },
+        ml: { md: `${DASHBOARD_LAYOUT_DRAWER_WIDTH}px` },
         backgroundColor: (theme) => theme.palette.common.white,
         boxShadow: 'none',
         borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
@@ -29,11 +29,11 @@ export const DashboardLayoutNavbar: React.FC<DashboardLayoutNavbarProps> = ({
           color="default"
           edge="start"
           onClick={onDrawerToggle}
-          sx={{ display: { sm: 'none' } }}
+          sx={{ display: { md: 'none' } }}
         >
           <MenuIcon />
         </IconButton>
-        <Typography sx={{ mr: 2, display: { sm: 'none' } }}>
+        <Typography sx={{ mr: 2, display: { md: 'none' } }}>
           CSVLyzer
         </Typography>
       </Toolbar>
