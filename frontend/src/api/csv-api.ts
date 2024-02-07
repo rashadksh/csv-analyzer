@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { CSVFileModel } from '@csv-analyzer/types';
+import { CSVFileModel, CSVFileState } from '@csv-analyzer/types';
 
 import { baseAPI } from './base';
 
@@ -32,8 +33,19 @@ export function useAllCSVFiles() {
 
 export const GET_CSV_FILE_BY_ID_KEY = 'GET/csv/:id';
 export function useCSVFileById(id: string) {
+  const REFETCH_INTERVAL = 3000;
+  const [refetchInterval, setRefetchInterval] = useState(0);
+
   return useQuery([GET_CSV_FILE_BY_ID_KEY, id], () => getCSVFileById(id), {
     enabled: typeof id === 'string',
+    refetchInterval: refetchInterval,
+    onSuccess: (data) => {
+      if (![CSVFileState.DONE, CSVFileState.FAILED].includes(data.file.state)) {
+        setRefetchInterval(REFETCH_INTERVAL);
+      } else {
+        setRefetchInterval(0);
+      }
+    },
   });
 }
 
