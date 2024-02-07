@@ -2,15 +2,11 @@ import { json2csv } from 'json-2-csv';
 import { CSVFileState } from '@csv-analyzer/types';
 
 import { AIService } from '../../types/services/ai.service';
-import {
-  CSVFileEntity,
-  CSVFileRepository,
-  CSVFileRowRepository,
-  UseCase,
-} from '../../types';
+import { CSVFileRepository, CSVFileRowRepository, UseCase } from '../../types';
+import { CSVFileNotFoundError } from '../../lib/errors/csv-errors';
 
 export class GenerateCSVFileChartsUseCase
-  implements UseCase<CSVFileEntity, Promise<void>>
+  implements UseCase<string, Promise<void>>
 {
   constructor(
     private csvFileRepository: CSVFileRepository,
@@ -18,7 +14,12 @@ export class GenerateCSVFileChartsUseCase
     private aiService: AIService
   ) {}
 
-  async execute(file: CSVFileEntity): Promise<void> {
+  async execute(fileId: string): Promise<void> {
+    const file = await this.csvFileRepository.getFileById(fileId);
+    if (!file) {
+      throw new CSVFileNotFoundError();
+    }
+
     await this.csvFileRepository.setFileStateById(
       file._id,
       CSVFileState.ANALYZING

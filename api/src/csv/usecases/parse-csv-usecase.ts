@@ -4,21 +4,26 @@ import { CSVFileState } from '@csv-analyzer/types';
 
 import {
   CSVFileRepository,
-  CSVFileEntity,
   UseCase,
   CSVFileRowRepository,
   QueueProducer,
 } from '../../types';
 import { transformCSVParseOutputToObject } from '../../lib/utils';
+import { CSVFileNotFoundError } from '../../lib/errors/csv-errors';
 
-export class ParseCSVFileUseCase implements UseCase<CSVFileEntity, void> {
+export class ParseCSVFileUseCase implements UseCase<string, void> {
   constructor(
     private csvFileRepository: CSVFileRepository,
     private csvFileRowRepository: CSVFileRowRepository,
     private csvAnalyzingQueueProducer: QueueProducer
   ) {}
 
-  async execute(file: CSVFileEntity): Promise<void> {
+  async execute(fileId: string): Promise<void> {
+    const file = await this.csvFileRepository.getFileById(fileId);
+    if (!file) {
+      throw new CSVFileNotFoundError();
+    }
+
     await this.csvFileRepository.setFileStateById(
       file._id,
       CSVFileState.PARSING

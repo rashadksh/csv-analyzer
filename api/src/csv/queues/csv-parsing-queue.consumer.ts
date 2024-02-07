@@ -32,7 +32,7 @@ export class CSVParsingQueueConsumer implements QueueConsumer {
       this.csvFileRowRepository,
       this.csvAnalyzingQueueProducer
     );
-    await parseCSVUsecase.execute(fileEntity);
+    await parseCSVUsecase.execute(job.data.id);
 
     Logger.debug(`Done parsing csv file ${job.data.id}`);
   }

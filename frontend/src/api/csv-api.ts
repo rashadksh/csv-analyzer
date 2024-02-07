@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { AskCSVFileDTO, CSVFileModel, CSVFileState } from '@csv-analyzer/types';
+import {
+  AskCSVFileDTO,
+  AskCSVFileResponseDTO,
+  CSVFileModel,
+  CSVFileState,
+} from '@csv-analyzer/types';
 
 import { baseAPI } from './base';
 
@@ -27,7 +32,7 @@ export async function processCSVFile(formData: FormData) {
 }
 
 export async function askCSVFileById(id: string, dto: AskCSVFileDTO) {
-  const { data } = await baseAPI.post<{ answer: string }>(
+  const { data } = await baseAPI.post<AskCSVFileResponseDTO>(
     `/csv/${id}/ask`,
     dto
   );

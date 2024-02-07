@@ -6,3 +6,7 @@ export type CreateCSVFileDTO = {
 export type AskCSVFileDTO = {
   question: string;
 };
+
+export type AskCSVFileResponseDTO = {
+  answer: string;
+};
