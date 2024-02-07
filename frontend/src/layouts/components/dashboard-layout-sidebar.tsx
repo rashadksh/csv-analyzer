@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
@@ -16,6 +17,7 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import DescriptionIcon from '@mui/icons-material/Description';
 
 import { DASHBOARD_LAYOUT_DRAWER_WIDTH } from '../../constants';
+import { useAllCSVFiles } from '../../api/csv-api';
 
 export interface DashboardLayoutSidebarProps {
   window?: () => Window;
@@ -30,6 +32,8 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
   onTransitionEnd,
   onClose,
 }) => {
+  const navigate = useNavigate();
+  const { data: csvFiles, isLoading, isError } = useAllCSVFiles();
   const [isFilesListOpen, setFilesListOpen] = useState(false);
 
   const handleToggleFilesList = () => setFilesListOpen((current) => !current);
@@ -37,6 +41,8 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
   // Remove this const when copying and pasting into your project.
   const container =
     window !== undefined ? () => window().document.body : undefined;
+
+  const isEmptyFiles = csvFiles?.length <= 0;
 
   const drawer = (
     <div>
@@ -60,12 +66,48 @@ export const DashboardLayoutSidebar: React.FC<DashboardLayoutSidebarProps> = ({
         </ListItemButton>
         <Collapse in={isFilesListOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemIcon>
-                <DescriptionIcon />
-              </ListItemIcon>
-              <ListItemText primary="Products" />
-            </ListItemButton>
+            {isLoading ? (
+              <ListItem>
+                <ListItemText
+                  sx={{ color: (theme) => theme.palette.grey[500] }}
+                >
+                  Loading...
+                </ListItemText>
+              </ListItem>
+            ) : null}
+            {isError ? (
+              <ListItem>
+                <ListItemText
+                  sx={{ color: (theme) => theme.palette.error.main }}
+                >
+                  Error
+                </ListItemText>
+              </ListItem>
+            ) : null}
+            {!isLoading && !isError ? (
+              isEmptyFiles ? (
+                <ListItem>
+                  <ListItemText
+                    sx={{ color: (theme) => theme.palette.grey[500] }}
+                  >
+                    No files yet
+                  </ListItemText>
+                </ListItem>
+              ) : (
+                csvFiles.map((file: any) => (
+                  <ListItemButton
+                    key={file.id}
+                    onClick={() => navigate(`/file/${file.id}`)}
+                    sx={{ pl: 4 }}
+                  >
+                    <ListItemIcon>
+                      <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={file.name} />
+                  </ListItemButton>
+                ))
+              )
+            ) : null}
           </List>
         </Collapse>
       </List>

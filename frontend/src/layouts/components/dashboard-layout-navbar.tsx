@@ -19,12 +19,14 @@ export const DashboardLayoutNavbar: React.FC<DashboardLayoutNavbarProps> = ({
       sx={{
         width: { sm: `calc(100% - ${DASHBOARD_LAYOUT_DRAWER_WIDTH}px)` },
         ml: { sm: `${DASHBOARD_LAYOUT_DRAWER_WIDTH}px` },
+        backgroundColor: (theme) => theme.palette.common.white,
+        boxShadow: 'none',
+        borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
       }}
     >
       <Toolbar>
         <IconButton
-          color="inherit"
-          aria-label="open drawer"
+          color="default"
           edge="start"
           onClick={onDrawerToggle}
           sx={{ display: { sm: 'none' } }}
