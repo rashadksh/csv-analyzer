@@ -6,6 +6,8 @@ import { CSVFileChartType, CSVFileState } from '@csv-analyzer/types';
 
 import { useCSVFileById } from '../api/csv-api';
 import {
+  getCSVFileChartLabels,
+  getCSVFileChartValues,
   getCSVFileProcessingProgress,
   getCSVFileStateText,
   transformCSVFileChartIntoPieChartData,
@@ -16,6 +18,7 @@ import LinearProgress from '../components/linear-progress';
 import BarChart from '../components/bar-chart';
 import NumberChart from '../components/number-chart';
 import PieChart from '../components/pie-chart';
+import JsonChart from '../components/json-chart';
 
 export interface ExploreFilePageProps {}
 
@@ -72,10 +75,8 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
                     <Box marginTop={5}>
                       {chart.type === CSVFileChartType.BAR ? (
                         <BarChart
-                          labels={chart.values.map(
-                            (value) => value.name || value.key || ''
-                          )}
-                          data={chart.values.map((value) => value.value)}
+                          labels={getCSVFileChartLabels(chart)}
+                          data={getCSVFileChartValues(chart)}
                         />
                       ) : chart.type === CSVFileChartType.NUMBER ? (
                         <NumberChart value={chart.values[0]?.value} />
@@ -84,9 +85,7 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
                           data={transformCSVFileChartIntoPieChartData(chart)}
                         />
                       ) : (
-                        <pre>
-                          <code>{JSON.stringify(chart, null, 2)}</code>
-                        </pre>
+                        <JsonChart chart={chart} />
                       )}
                     </Box>
                   </Box>

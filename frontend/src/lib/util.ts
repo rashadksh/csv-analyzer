@@ -41,3 +41,11 @@ export function transformCSVFileChartIntoPieChartData(chart: CSVFileChart) {
     label: value.name || value.key || '',
   }));
 }
+
+export function getCSVFileChartLabels(chart: CSVFileChart) {
+  return chart.values.map((value) => value.key || value.name || '');
+}
+
+export function getCSVFileChartValues(chart: CSVFileChart) {
+  return chart.values.map((value) => value.value);
+}
