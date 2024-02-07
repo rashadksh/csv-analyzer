@@ -2,6 +2,7 @@ version: '3'
 
 tasks:
   dev: docker compose --env-file .env up -d
+  test: yarn run test:api
   down: docker compose down
   restart: docker compose restart {{.CLI_ARGS}}
   logs: docker compose logs -f --tail 50 {{.CLI_ARGS}}
