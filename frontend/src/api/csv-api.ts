@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { CSVFileModel, CSVFileState } from '@csv-analyzer/types';
+import { AskCSVFileDTO, CSVFileModel, CSVFileState } from '@csv-analyzer/types';
 
 import { baseAPI } from './base';
 
@@ -23,6 +23,14 @@ export async function processCSVFile(formData: FormData) {
     },
   });
 
+  return data;
+}
+
+export async function askCSVFileById(id: string, dto: AskCSVFileDTO) {
+  const { data } = await baseAPI.post<{ answer: string }>(
+    `/csv/${id}/ask`,
+    dto
+  );
   return data;
 }
 
@@ -56,4 +64,8 @@ export function useProcessCSVFile() {
       queryClient.invalidateQueries([GET_ALL_CSV_FILES_KEY]);
     },
   });
+}
+
+export function useAskCSVFileById(id: string) {
+  return useMutation((dto: AskCSVFileDTO) => askCSVFileById(id, dto));
 }

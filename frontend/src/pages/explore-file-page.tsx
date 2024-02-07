@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { CSVFileChartType, CSVFileState } from '@csv-analyzer/types';
 
-import { useCSVFileById } from '../api/csv-api';
+import { useAskCSVFileById, useCSVFileById } from '../api/csv-api';
 import {
   getCSVFileChartLabels,
   getCSVFileChartValues,
@@ -21,20 +21,25 @@ import NumberChart from '../components/number-chart';
 import PieChart from '../components/pie-chart';
 import JsonChart from '../components/json-chart';
 import Table from '../components/table';
+import AskCsvQuestion from './components/ask-csv-question';
 
 export interface ExploreFilePageProps {}
 
 export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useCSVFileById(id!);
+  const { mutateAsync: askFile } = useAskCSVFileById(id!);
+
+  const handleAskQuestion = async (question: string) => {
+    const { answer } = await askFile({ question });
+    return answer;
+  };
 
   const file = data?.file;
   const rows = data?.rows ?? [{}];
 
   const isFileProcessing =
-    file &&
-    file.state !== CSVFileState.DONE &&
-    file.state !== CSVFileState.FAILED;
+    file && ![CSVFileState.DONE, CSVFileState.FAILED].includes(file.state);
   const isFileProcessingFailed = file && file.state === CSVFileState.FAILED;
   const isFileReady = file && file.state === CSVFileState.DONE;
 
@@ -95,7 +100,6 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
               ))}
               <Grid item xs={12}>
                 <Box
-                  height="100%"
                   sx={{
                     background: (theme) => theme.palette.common.white,
                     boxShadow: (theme) => theme.shadows[1],
@@ -108,6 +112,17 @@ export const ExploreFilePage: React.FC<ExploreFilePageProps> = () => {
                     data={rows}
                     pageSize={10}
                   />
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  padding={3}
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: (theme) => theme.shadows[1],
+                  }}
+                >
+                  <AskCsvQuestion onSubmit={handleAskQuestion} />
                 </Box>
               </Grid>
             </Grid>
