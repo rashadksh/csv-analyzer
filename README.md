@@ -43,4 +43,4 @@ If it's the first time, have a ☕ as it will take up to 15 mins to build the do
 
 ### Running tests
 
-Tests are ran outside docker as a proof that they can literally everywhere. Make sure to run `yarn install` in the root directory. Then run `task test`.
+Tests are ran outside docker as a proof that they can literally run anywhere. Make sure to run `yarn install` in the root directory. Then run `task test`.
